@@ -66,7 +66,7 @@ class UpdateTaskScreen extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 15, top: 24, bottom: 24),
+                padding: EdgeInsets.only(left: 15),
                 child: Row(
                   children: [
                     GestureDetector(
