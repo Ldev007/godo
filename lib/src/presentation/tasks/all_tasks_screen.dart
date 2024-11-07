@@ -17,7 +17,12 @@ class _AllTasksScreenState extends State<AllTasksScreen> with SingleTickerProvid
 
   @override
   void initState() {
-    _tabController = TabController(length: 6, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
+    _tabController.addListener(() {
+      if (_tabController.index == _tabController.length - 1) {
+        _tabController.animateTo(_tabController.previousIndex, duration: Duration.zero);
+      }
+    });
     listController = ScrollController();
     super.initState();
   }
@@ -25,122 +30,80 @@ class _AllTasksScreenState extends State<AllTasksScreen> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: SafeArea(
-          child: CustomScrollView(
-            controller: listController,
-            slivers: [
-              SliverAppBar(
-                title: Text('Godo'),
-                actions: const [CustomAvatar()],
-                centerTitle: true,
-                primary: false,
+      body: SafeArea(
+        child: CustomScrollView(
+          controller: listController,
+          slivers: [
+            SliverAppBar(
+              title: Text('Godo'),
+              actions: const [CustomAvatar()],
+              centerTitle: true,
+              primary: false,
+            ),
+            SliverPersistentHeader(
+              pinned: true,
+              delegate: _CategoriesBarHeader(tabController: _tabController),
+            ),
+            SliverFillRemaining(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  SingleChildScrollView(
+                    physics: NeverScrollableScrollPhysics(),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: List.generate(
+                        10,
+                        (i) => Dismissible(
+                          key: ValueKey(i + 2),
+                          child: ListTile(
+                            leading: Container(
+                              decoration: BoxDecoration(shape: BoxShape.circle),
+                              width: 10,
+                              height: 10,
+                            ),
+                            title: Text('SampleTitle$i'),
+                            subtitle: Text('SampleDescription'),
+                            trailing: IconButton(onPressed: () => null, icon: Icon(Icons.star_border)),
+                            isThreeLine: true,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: List.generate(
+                        10,
+                        (i) => Dismissible(
+                          key: ValueKey(i + 2),
+                          child: ListTile(
+                            leading: Container(
+                              decoration: BoxDecoration(shape: BoxShape.circle),
+                              width: 10,
+                              height: 10,
+                            ),
+                            title: Text('SampleTitle${i + 1}'),
+                            subtitle: Text('SampleDescription'),
+                            trailing: IconButton(onPressed: () => null, icon: Icon(Icons.star_border)),
+                            isThreeLine: true,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(),
+                ],
               ),
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: _CategoriesBarHeader(tabController: _tabController),
-              ),
-              SliverFillRemaining(
-                child: TabBarView(
-                  controller: _tabController,
-                  children: [
-                    ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: 10,
-                      itemBuilder: (ctx, i) => Dismissible(
-                        key: ValueKey(i + 2),
-                        child: ListTile(
-                          leading: Container(
-                            decoration: BoxDecoration(shape: BoxShape.circle),
-                            width: 10,
-                            height: 10,
-                          ),
-                          title: Text('SampleTitle'),
-                          subtitle: Text('SampleDescription'),
-                          trailing: IconButton(onPressed: () => null, icon: Icon(Icons.star_border)),
-                          isThreeLine: true,
-                        ),
-                      ),
-                    ),
-                    ListView.builder(
-                      itemCount: 10,
-                      itemBuilder: (ctx, i) => Dismissible(
-                        key: ValueKey(i + 3),
-                        child: ListTile(
-                          leading: Container(
-                            decoration: BoxDecoration(shape: BoxShape.circle),
-                            width: 10,
-                            height: 10,
-                          ),
-                          title: Text('SampleTitle'),
-                          subtitle: Text('SampleDescription'),
-                          trailing: IconButton(onPressed: () => null, icon: Icon(Icons.star_border)),
-                          isThreeLine: true,
-                        ),
-                      ),
-                    ),
-                    ListView.builder(
-                      itemCount: 10,
-                      itemBuilder: (ctx, i) => Dismissible(
-                        key: ValueKey(i + 5),
-                        child: ListTile(
-                          leading: Container(
-                            decoration: BoxDecoration(shape: BoxShape.circle),
-                            width: 10,
-                            height: 10,
-                          ),
-                          title: Text('SampleTitle'),
-                          subtitle: Text('SampleDescription'),
-                          trailing: IconButton(onPressed: () => null, icon: Icon(Icons.star_border)),
-                          isThreeLine: true,
-                        ),
-                      ),
-                    ),
-                    ListView.builder(
-                      itemCount: 10,
-                      itemBuilder: (ctx, i) => Dismissible(
-                        key: ValueKey(i + 7),
-                        child: ListTile(
-                          leading: Container(
-                            decoration: BoxDecoration(shape: BoxShape.circle),
-                            width: 10,
-                            height: 10,
-                          ),
-                          title: Text('SampleTitle'),
-                          subtitle: Text('SampleDescription'),
-                          trailing: IconButton(onPressed: () => null, icon: Icon(Icons.star_border)),
-                          isThreeLine: true,
-                        ),
-                      ),
-                    ),
-                    ListView.builder(
-                      itemCount: 10,
-                      itemBuilder: (ctx, i) => Dismissible(
-                        key: ValueKey(i + 8),
-                        child: ListTile(
-                          leading: Container(
-                            decoration: BoxDecoration(shape: BoxShape.circle),
-                            width: 10,
-                            height: 10,
-                          ),
-                          title: Text('SampleTitle'),
-                          subtitle: Text('SampleDescription'),
-                          trailing: IconButton(onPressed: () => null, icon: Icon(Icons.star_border)),
-                          isThreeLine: true,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
+
+  rebuild() => setState(() {});
 }
 
 // Custom delegate to control the sliver's behavior
@@ -162,9 +125,6 @@ class _CategoriesBarHeader extends SliverPersistentHeaderDelegate {
       tabs: [
         Text('Sample1'),
         Text('Sample2'),
-        Text('Sample3'),
-        Text('Sample4'),
-        Text('Sample5'),
         RichText(
           overflow: TextOverflow.visible,
           text: TextSpan(
@@ -175,19 +135,25 @@ class _CategoriesBarHeader extends SliverPersistentHeaderDelegate {
           ),
         ),
       ],
-      onTap: (i) => i == 5
-          ? showBottomSheet(
-              context: context,
-              builder: (context) => Center(
-                child: Text('Sheet'),
-              ),
-            )
-          : null,
+      onTap: (i) {
+        if (i == tabController.length - 1) {
+          showBottomSheet(
+            context: context,
+            builder: (context) => Center(
+              child: Text('Sheet'),
+            ),
+          );
+        }
+      },
     );
   }
 
   @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return false; // You can use this to decide when the header should be rebuilt
+  bool shouldRebuild(covariant _CategoriesBarHeader oldDelegate) {
+    if (tabController.index == 2) {
+      tabController.animateTo(0);
+      return true;
+    }
+    return false;
   }
 }
