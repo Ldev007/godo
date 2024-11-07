@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:godo/src/presentation/tasks/components/add_task_bottomsheet.dart';
 import 'package:godo/src/presentation/tasks/components/custom_avatar.dart';
 
 class AllTasksScreen extends StatefulWidget {
@@ -29,14 +31,24 @@ class _AllTasksScreenState extends State<AllTasksScreen> with SingleTickerProvid
 
   @override
   Widget build(BuildContext context) {
+    // TODO: add these under didUpdate so that they only change when the theme changes
+    SystemChrome.setSystemUIOverlayStyle(Theme.of(context).brightness == Brightness.dark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark);
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(systemNavigationBarColor: Colors.transparent));
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => showModalBottomSheet(
+          context: context,
+          builder: (context) => AddTaskBottomSheet(),
+        ),
+        child: Icon(Icons.add),
+      ),
       body: SafeArea(
         child: CustomScrollView(
           controller: listController,
           slivers: [
             SliverAppBar(
               title: Text('Godo'),
-              actions: const [CustomAvatar()],
+              actions: [IconButton(onPressed: () {}, icon: Icon(Icons.sunny)), CustomAvatar()],
               centerTitle: true,
               primary: false,
             ),
@@ -48,26 +60,33 @@ class _AllTasksScreenState extends State<AllTasksScreen> with SingleTickerProvid
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  SingleChildScrollView(
+                  ReorderableListView(
+                    onReorder: (oldIndex, newIndex) {},
                     physics: NeverScrollableScrollPhysics(),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: List.generate(
-                        10,
-                        (i) => Dismissible(
-                          key: ValueKey(i + 2),
-                          child: ListTile(
-                            leading: Container(
-                              decoration: BoxDecoration(shape: BoxShape.circle),
-                              width: 10,
-                              height: 10,
-                            ),
-                            title: Text('SampleTitle$i'),
-                            subtitle: Text('SampleDescription'),
-                            trailing: IconButton(onPressed: () => null, icon: Icon(Icons.star_border)),
-                            isThreeLine: true,
-                          ),
+                    padding: EdgeInsets.only(top: 10),
+                    children: List.generate(
+                      10,
+                      (i) => ListTile(
+                        titleAlignment: ListTileTitleAlignment.threeLine,
+                        key: ValueKey(i + 1),
+                        leading: Container(
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: Theme.of(context).primaryColor)),
+                          width: 20,
+                          height: 48,
+                          child: Align(
+                              alignment: Alignment.center,
+                              child: InkWell(
+                                onTap: () {},
+                                radius: 3,
+                                splashColor: Colors.grey,
+                                highlightColor: Colors.transparent,
+                                // overlayColor: WidgetStatePropertyAll(Colors.transparent),
+                              )),
                         ),
+                        title: Text('SampleTitle$i'),
+                        subtitle: Text('SampleDescription\nsdsssd\ndfsfsdf'),
+                        trailing: IconButton(onPressed: () => null, icon: Icon(Icons.star_border)),
                       ),
                     ),
                   ),
@@ -76,19 +95,16 @@ class _AllTasksScreenState extends State<AllTasksScreen> with SingleTickerProvid
                       mainAxisSize: MainAxisSize.max,
                       children: List.generate(
                         10,
-                        (i) => Dismissible(
-                          key: ValueKey(i + 2),
-                          child: ListTile(
-                            leading: Container(
-                              decoration: BoxDecoration(shape: BoxShape.circle),
-                              width: 10,
-                              height: 10,
-                            ),
-                            title: Text('SampleTitle${i + 1}'),
-                            subtitle: Text('SampleDescription'),
-                            trailing: IconButton(onPressed: () => null, icon: Icon(Icons.star_border)),
-                            isThreeLine: true,
+                        (i) => ListTile(
+                          leading: Container(
+                            decoration: BoxDecoration(shape: BoxShape.circle),
+                            width: 10,
+                            height: 10,
                           ),
+                          title: Text('SampleTitle${i + 1}'),
+                          subtitle: Text('SampleDescription'),
+                          trailing: IconButton(onPressed: () => null, icon: Icon(Icons.star_border)),
+                          isThreeLine: true,
                         ),
                       ),
                     ),
@@ -118,33 +134,35 @@ class _CategoriesBarHeader extends SliverPersistentHeaderDelegate {
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     // The header widget that will appear when pinned
-    return TabBar(
-      controller: tabController,
-      isScrollable: true,
-      labelPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      tabs: [
-        Text('Sample1'),
-        Text('Sample2'),
-        RichText(
-          overflow: TextOverflow.visible,
-          text: TextSpan(
-            children: const [
-              WidgetSpan(child: Icon(Icons.add), alignment: PlaceholderAlignment.middle),
-              TextSpan(text: 'Add category', style: TextStyle(color: Colors.black)),
-            ],
-          ),
-        ),
-      ],
-      onTap: (i) {
-        if (i == tabController.length - 1) {
-          showBottomSheet(
-            context: context,
-            builder: (context) => Center(
-              child: Text('Sheet'),
+    return Material(
+      child: TabBar(
+        controller: tabController,
+        isScrollable: true,
+        labelPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        tabs: [
+          Text('Sample1'),
+          Text('Sample2'),
+          RichText(
+            overflow: TextOverflow.visible,
+            text: TextSpan(
+              children: const [
+                WidgetSpan(child: Icon(Icons.add), alignment: PlaceholderAlignment.middle),
+                TextSpan(text: 'Add category', style: TextStyle(color: Colors.black)),
+              ],
             ),
-          );
-        }
-      },
+          ),
+        ],
+        onTap: (i) {
+          if (i == tabController.length - 1) {
+            showBottomSheet(
+              context: context,
+              builder: (context) => Center(
+                child: Text('Sheet'),
+              ),
+            );
+          }
+        },
+      ),
     );
   }
 

@@ -40,7 +40,7 @@ A To-do to help you to manage your tasks swiftly with ease and gets you to "go d
 2. Initial UI Implementation
    - View all tasks screen (2.15 hrs)
    - Add task flow (30 mins)
-   - Update task flow
+   - Update task flow (1 hr)
    - Filter tasks flow based on categories
 3. Initial setup backend
    - Entity relationship diagram
@@ -74,8 +74,10 @@ A To-do to help you to manage your tasks swiftly with ease and gets you to "go d
    - [x] View all tasks screen (2.15 hrs)
 ### Sprint-2 (6 hours, Goal : "2.", "3.1, 3.2", "4.", "5.1", "6.1)
 2. **UI Implementation**
-   - View all tasks screen (2.15 hrs)
-   - Add task flow (30 mins)
+   - [x] View all tasks screen (2.15 hrs)
+   - [x] Add task flow (30 mins)
+   -- [x] Handle auto expanding bottom sheet with the bottom row anchored scenario (1 hr)
+   -- [x] Enhancements in the all tasks screen and some UI fixes (~45 mins)
    - Update task flow
    - Filter tasks flow based on categories
 3. **Initial setup backend**

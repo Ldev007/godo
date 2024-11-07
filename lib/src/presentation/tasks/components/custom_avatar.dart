@@ -6,9 +6,15 @@ class CustomAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
-      width: 55,
-      height: 55,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+        ),
+      ),
+      width: 40,
+      height: 40,
+      child: const Icon(Icons.person),
     );
   }
 }
