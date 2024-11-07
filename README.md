@@ -9,28 +9,23 @@ A To-do to help you to manage your tasks swiftly with ease and gets you to "go d
 - Dart >= 3.0
 
 ## Project architecture
-
+```
 - assets (contains all the different assets we might use in the app)
 - lib (contains the source code for everything which drives the app)
-  -- core (contains code which drives the core functionality of the app)
-  -- src (source code for all the features segregated on the basis of functional layers)
-  --- application (Services)
-  --- presentation (UI layer)
-  ---- tasks
-  ---- categories
-  ---- stats
-  --- data (DB interaction layer, DAOs source)
-  ---- tasks
-  ---- categories
-  ---- stats
-  --- domain (Data modelling layer)
-  ---- tasks
-  ---- categories
-  ---- stats
-  main.dart (Starting point of the app)
-  app.dart (Main app widget)
-
-
+├───core (contains code which drives the core functionality of the app)
+│   ├───network
+│   │   └───apiClient
+│   │       └───clients
+│   ├───router
+│   ├───theming
+│   └───utils
+│       └───extensions
+└───src (source code for all the features segregated on the basis of functional layers)
+    ├───application (Services)
+    ├───data (DB interaction layer, DAOs source)
+    ├───domain (Data modelling layer)
+    └───presentation (UI layer)
+```
 ## Tasks
 1. Initial Setup
    - Plan the architecture (1.5 hour)
