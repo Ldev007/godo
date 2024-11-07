@@ -2,6 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
+import 'package:godo/core/router/routes.dart';
+import 'package:godo/src/domain/entities/task.dart';
 import 'package:godo/src/presentation/tasks/components/add_task_bottomsheet.dart';
 import 'package:godo/src/presentation/tasks/components/custom_avatar.dart';
 
@@ -72,6 +75,16 @@ class _AllTasksScreenState extends State<AllTasksScreen> with SingleTickerProvid
                     children: List.generate(
                       10,
                       (i) => ListTile(
+                        onTap: () => context.push(
+                          Routes.updateTaskScreen,
+                          extra: Task(
+                            id: 'i+1',
+                            title: 'SampleTitle$i',
+                            description: 'SampleDescription$i',
+                            createdAt: DateTime.now(),
+                            reminder: DateTime.now().subtract(Duration(days: 2)),
+                          ),
+                        ),
                         titleAlignment: ListTileTitleAlignment.threeLine,
                         key: ValueKey(i + 1),
                         leading: Container(

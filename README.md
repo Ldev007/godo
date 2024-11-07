@@ -73,7 +73,9 @@ A To-do to help you to manage your tasks swiftly with ease and gets you to "go d
    - [x] Add task flow (30 mins)
    -- [x] Handle auto expanding bottom sheet with the bottom row anchored scenario (1 hr)
    -- [x] Enhancements in the all tasks screen and some UI fixes (~45 mins)
-   - Update task flow
+   - [x] Update task flow (45 hr)
+   -- [x] Added drag handle and scrollbar to the add task bottom sheet (~15 mins)
+   -- [x] Added an extension for build context (~10 mins)
    - Filter tasks flow based on categories
 3. **Initial setup backend**
    - Entity relationship diagram
