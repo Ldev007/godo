@@ -37,6 +37,11 @@ class _AllTasksScreenState extends State<AllTasksScreen> with SingleTickerProvid
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () => showModalBottomSheet(
+          constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height * 0.1, maxHeight: MediaQuery.of(context).size.height * 0.95),
+          isScrollControlled: true,
+          isDismissible: true,
+          showDragHandle: true,
+          enableDrag: true,
           context: context,
           builder: (context) => AddTaskBottomSheet(),
         ),
@@ -85,7 +90,9 @@ class _AllTasksScreenState extends State<AllTasksScreen> with SingleTickerProvid
                               )),
                         ),
                         title: Text('SampleTitle$i'),
-                        subtitle: Text('SampleDescription\nsdsssd\ndfsfsdf'),
+                        subtitle: Text('SampleDescription'),
+                        // TODO: improvise handling multiline descriptions
+                        isThreeLine: true,
                         trailing: IconButton(onPressed: () => null, icon: Icon(Icons.star_border)),
                       ),
                     ),
